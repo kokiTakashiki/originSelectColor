@@ -1,6 +1,6 @@
 //
 //  shader.metal
-//  metalHanabi01
+//  originSelectColor
 //
 //  Created by takasiki on 5/26/1 R.
 //  Copyright © 1 Reiwa takasiki. All rights reserved.
