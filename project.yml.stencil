@@ -14,7 +14,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: {{ PRODUCT_BUNDLE_IDENTIFIER }}
         PRODUCT_NAME: originSelectColor
-        SWIFT_VERSION: "5.0"
+        SWIFT_VERSION: "6.0"
         INFOPLIST_FILE: originSelectColor/Info.plist
         DEVELOPMENT_TEAM: {{ DEVELOPMENT_TEAM }}
         CODE_SIGN_STYLE: {{ CODE_SIGN_STYLE }}
