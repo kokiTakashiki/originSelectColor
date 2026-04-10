@@ -1,12 +1,15 @@
 .PHONY: help setup upgrade format open clean build generate reset
 
+SWIFTFORMAT_VERSION := 0.60.1
+SWIFTFORMAT_CACHE := .build/swiftformat
+
 # デフォルトターゲット - ヘルプの表示
 help:
 	@echo "利用可能なコマンド:"
 	@echo "  make setup    - 開発環境をセットアップします（XcodeGen, SwiftFormat, Genesis, rbenv, Fastlane）"
 	@echo "  make upgrade  - 開発環境ツールをアップグレードします（XcodeGen, SwiftFormat）"
 	@echo "  make generate - XcodeGenでプロジェクトファイルを生成します"
-	@echo "  make format   - SwiftFormatでコードをフォーマットします"
+	@echo "  make format   - MacとLinuxの二つの環境に応じてSwiftFormatでコードをフォーマットします"
 	@echo "  make open     - originSelectColor.xcodeprojをXcodeで開きます（ルート）"
 	@echo "  make clean    - ビルド成果物をクリーンします"
 	@echo "  make build    - プロジェクトをビルドします"
@@ -143,14 +146,38 @@ generate:
 	xcodegen generate
 	@echo "プロジェクトファイルの生成が完了しました"
 
-# SwiftFormatの実行
+# SwiftFormatの実行（macOS/Linux自動判別）
 format:
 	@echo "SwiftFormatでコードをフォーマットしています..."
-	@if ! which swiftformat > /dev/null; then \
+	@SWIFTFORMAT=""; \
+	if which swiftformat > /dev/null 2>&1; then \
+		SWIFTFORMAT=swiftformat; \
+	elif [ -x $(SWIFTFORMAT_CACHE) ]; then \
+		SWIFTFORMAT=$(SWIFTFORMAT_CACHE); \
+	elif [ "$$(uname)" = "Linux" ]; then \
+		echo "SwiftFormatをダウンロードしています (v$(SWIFTFORMAT_VERSION))..."; \
+		mkdir -p .build; \
+		ARCH=$$(uname -m); \
+		if [ "$$ARCH" = "x86_64" ]; then \
+			ASSET=swiftformat_linux.zip; \
+			BINARY=swiftformat_linux; \
+		elif [ "$$ARCH" = "aarch64" ] || [ "$$ARCH" = "arm64" ]; then \
+			ASSET=swiftformat_linux_aarch64.zip; \
+			BINARY=swiftformat_linux_aarch64; \
+		else \
+			echo "サポートされていないアーキテクチャ: $$ARCH"; exit 1; \
+		fi; \
+		curl -sL "https://github.com/nicklockwood/SwiftFormat/releases/download/$(SWIFTFORMAT_VERSION)/$$ASSET" -o /tmp/swiftformat.zip && \
+		unzip -o /tmp/swiftformat.zip -d /tmp/swiftformat_tmp && \
+		mv "/tmp/swiftformat_tmp/$$BINARY" $(SWIFTFORMAT_CACHE) && \
+		chmod +x $(SWIFTFORMAT_CACHE) && \
+		rm -rf /tmp/swiftformat.zip /tmp/swiftformat_tmp; \
+		SWIFTFORMAT=$(SWIFTFORMAT_CACHE); \
+	else \
 		echo "SwiftFormatがインストールされていません。'make setup'を実行してください"; \
 		exit 1; \
-	fi
-	swiftformat originSelectColor/
+	fi; \
+	$$SWIFTFORMAT originSelectColor/
 
 # ビルド成果物をクリーン
 clean:
