@@ -11,6 +11,7 @@ import Metal
 import MetalKit
 import simd
 
+@MainActor
 protocol RenderDestinationProvider {
     var currentRenderPassDescriptor: MTLRenderPassDescriptor? { get }
     var currentDrawable: CAMetalDrawable? { get }
@@ -36,6 +37,7 @@ let imageVertexArray: [Float] = [
     1.0, 1.0, 1.0, 0.0,
 ]
 
+@MainActor
 class Renderer {
     let device: MTLDevice!
     let inFlightSemaphore = DispatchSemaphore(value: kMaxBuffersInFlight)
