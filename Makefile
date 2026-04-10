@@ -9,7 +9,7 @@ help:
 	@echo "  make setup    - 開発環境をセットアップします（XcodeGen, SwiftFormat, Genesis, rbenv, Fastlane）"
 	@echo "  make upgrade  - 開発環境ツールをアップグレードします（XcodeGen, SwiftFormat）"
 	@echo "  make generate - XcodeGenでプロジェクトファイルを生成します"
-	@echo "  make format   - SwiftFormatでコードをフォーマットします"
+	@echo "  make format   - SwiftFormatでコードをフォーマットします（Linux環境では自動ダウンロード）"
 	@echo "  make open     - originSelectColor.xcodeprojをXcodeで開きます（ルート）"
 	@echo "  make clean    - ビルド成果物をクリーンします"
 	@echo "  make build    - プロジェクトをビルドします"
