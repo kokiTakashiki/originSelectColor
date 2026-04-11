@@ -37,13 +37,7 @@ class ViewController: UIViewController, MTKViewDelegate {
             return
         }
 
-        let textureLoader = MTKTextureLoader(device: DrawView.device!)
-        let path = Bundle.main.path(forResource: "hari031", ofType: "png")!
-        let data = NSData(contentsOfFile: path)! as Data
-        // let texture = try! textureLoader.newTexture(with: data, options: [MTKTextureLoaderOptionSRGB : (false as NSNumber)])
-        let texture = try! textureLoader.newTexture(data: data, options: [MTKTextureLoader.Option.SRGB: false as NSNumber])
-
-        renderer = Renderer(name: "CreateOrigin", metalDevice: DrawView.device!, texture: texture, renderDestination: DrawView)
+        renderer = Renderer(name: "CreateOrigin", metalDevice: DrawView.device!, renderDestination: DrawView)
     }
 
     func mtkView(_: MTKView, drawableSizeWillChange _: CGSize) {}

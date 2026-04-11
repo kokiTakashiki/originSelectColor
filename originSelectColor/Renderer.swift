@@ -49,11 +49,9 @@ class Renderer {
     var imagePipelineState: MTLRenderPipelineState!
 
     var timer: Float = 0
-    var texture: MTLTexture
 
-    init(name _: String, metalDevice device: MTLDevice, texture: MTLTexture, renderDestination: RenderDestinationProvider) {
+    init(name _: String, metalDevice device: MTLDevice, renderDestination: RenderDestinationProvider) {
         self.device = device
-        self.texture = texture
         self.renderDestination = renderDestination
         loadMetal()
     }
