@@ -31,6 +31,7 @@ Carthage/Build/
 # Environment / Generated
 .env
 project.yml
+originSelectColor/Info.plist
 
 # Misc
 *.moved-aside
